@@ -50,7 +50,7 @@ FAKEUSERAGENT_PROVIDERS = [
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.203'
 
 # Configuração de Proxy
-SCRAPEOPS_API_KEY = 'a3f178b2-37a9-478e-8f65-7ef48d9d1702'
+SCRAPEOPS_API_KEY = '<<< Sua API Key do site ScrapeOPS >>>'
 SCRAPEOPS_PROXY_ENABLED = True
 
 # DOWNLOADER_MIDDLEWARES = {

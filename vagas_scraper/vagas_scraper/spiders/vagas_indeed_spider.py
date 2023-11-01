@@ -47,7 +47,9 @@ class SpiderVagas(scrapy.Spider):
     'scrapy_fake_useragent.providers.FixedUserAgentProvider',  # Fall back to USER_AGENT value
 ],
         'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.203',
-        'SCRAPEOPS_API_KEY': 'a3f178b2-37a9-478e-8f65-7ef48d9d1702',
+        
+        'SCRAPEOPS_API_KEY': '<<< Sua API Key do site ScrapeOPS >>>',
+        
         'SCRAPEOPS_PROXY_ENABLED': True
     }
     
@@ -61,10 +63,6 @@ class SpiderVagas(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse, meta={'url_base': url})
     
     def parse(self, response: Response, **kwargs: Any) -> Any:
-        # driver = SpiderVagas.iniciar_driver()
-        # driver.get(response.meta['url'])
-        # sleep(10)
-        # response_webdriver = Selector(text=driver.page_source)
         for elemento in response.xpath("//div[@class='job_seen_beacon']/table"):
             loader = ItemLoader(item=VagasScraperItem(), selector=elemento, response=response)
             loader.add_xpath("Titulo_da_Vaga", ".//span[@title]/text()")
