@@ -1,16 +1,16 @@
-# WebScraping_Vagas_Indeed
-### Objetivo
-#### Desenvolver um sistema de busca de vagas para as profissões informadas pelo usuário, no site Indeed.
-### Procedimentos
-#### Inicialmente foi desenvolvido a estrutura na qual seria baseada a busca por vagas. Para esse processo utilizei uma url pronta que ao acessar, o usuário já seria direcionado para página onde são apresentadas as vagas de emprego da profissão mencionada no endereço web, definindo assim um modelo à ser alterado somente a profissão indicada na url. Com essa url modelo, foi possível utilizar uma variável dinâmica para adicionar a profissão coletada e tratada, ao iniciar o programa.
-#### Posteriormente à esse processo, desenvolvi um sistema de busca através de mecanismos do próprio Scrapy como o Request, utilizado para realizar requisições para o endereço web informado. A partir dessa definição, é indicado uma função para realizar o tratamento e armazenamento dos dados. Nessa segunda definição fiz um sistema de busca através de XPATH, que identificamos como se fosse a identidade de cada elemento HTML no site, a partir dessa identidade dos elementos, localizei um XPATH comum à cada item de extração de meu interesse.
-#### Por fim, estruturei uma lógica para realizar o processo anterior em todas as páginas de busca disponível e desenvolvi uma interface gráfica simples no arquivo app.py para obter os dados necessários para busca.
-### O Erro
-#### Com o sistema de busca e coleta de dados desenvolvido, realizei testes e encontrei um erro persistente que impedia a extração de dados e armazenamento desses. A partir disso, fiz algumas pesquisas e após algum tempo concluí que o erro encontrado foi causado por um bloqueio do site Indeed. Esse bloqueio foi aplicado ao proxy do computador utilizado e caso o app fosse executado em outro dispositivo esse bloqueio seria feito da mesma forma.
-#### Pensando nisso, encontrei uma solução para evitar esse bloqueio alterando o proxy de busca utilizado na extração. Para isso, existe um serviço web chamado ScrapeOPS que nos permite alterar o proxy do nosso navegador de forma segura a cada execução, através de uma API Key. Para implementação dessa proteção, utilizei as configurações localizadas no arquivo vagas_indeed_spider.py que está no seguinte caminho: vagas_scraper/vagas_scraper/spiders/vagas_indeed_spider.py.
-#### Dentro desse arquivo citado, podemos encontrar uma variável denominada "custom_settings" onde são definidas algumas configurações à serem aplicadas ao serviço desenvolvido. Nessa variável, é possível encontrar um valor com o nome de "SCRAPEOPS_API_KEY", que devemos inserir nossa API Key obtida após o login no site ScrapeOPS, para que o programa funcione corretamente.
-## Guia do Usuário
-### Qual arquivo executar?
-#### O arquivo principal que deve ser executado é o denominado de app.py. Ao executar esse arquivo, será aberto uma interface gráfica na qual é solicitado o nome da profissão que deve ser buscada para encontrar suas vagas.
-### Configurações Obrigatórias
-#### Para funcionamento correto do processo de extração, é necessário alterar o valor da variável "SCRAPEOPS_API_KEY" que está dentro de outra variável denominada "custom_settings" no arquivo com caminho definido como vagas_scraper/vagas_scraper/spiders/vagas_indeed_spider.py.
+# Indeed Jobs Web Scraping
+### Target
+#### Develop a Web Scraper to get jobs on Indeed.com, trough user keywords, and load the information into an SQL database.
+### Development Steps
+#### Initially, the structure on which the search for vacancies would be based was developed. For this process, I used a ready-made url that, when accessed, the user would already be directed to the page where job vacancies for the profession mentioned in the web address are presented, thus defining a model to be changed only for the profession indicated in the url. With this model url, it was possible to use a dynamic variable to add the profession collected and processed, when starting the program.
+#### After this process, I developed a search system using Scrapy's own mechanisms such as Request, used to make requests to the informed web address. From this definition, a function is indicated to process and store the data. In this second definition, I created a search system using XPATH, which we identified as if it were the identity of each HTML element on the website. Based on this identity of the elements, I located an XPATH common to each extraction item of interest.
+#### Finally, I structured a logic to perform the previous process on all available search pages and developed a simple graphical interface in the app.py file to obtain the necessary data for the search.
+### The Error
+#### With the search and data collection system developed, I carried out tests and found a persistent error that prevented data extraction and storage. From there, I did some research and after some time concluded that the error found was caused by a block on the Indeed website. This blocking was applied to the proxy on the computer used and if the app was run on another device, this blocking would be done in the same way.
+#### With that in mind, I found a solution to avoid this block by changing the search proxy used in the extraction. To do this, there is a web service named ScrapeOPS that allows us to change our browser's proxy securely at each execution, through an API Key. To implement this protection, I used the settings located in the vagas_indeed_spider.py file which is in the following path : vagas_scraper/vagas_scraper/spiders/vagas_indeed_spider.py.
+#### Within this file, we can find a variable called "custom_settings" where some settings are defined to be applied to the developed service. In this variable, it is possible to find a value with the name "SCRAPEOPS_API_KEY", which we must insert our API Key obtained after logging into the ScrapeOPS website, for the program to work correctly.
+## User Guide
+### Which file to execute?
+#### The main file that must be executed is app.py. When executing this file, a graphical interface will open in which you will be asked for the name of the profession that must be searched to find jobs.
+### Mandatory Settings
+#### For the extraction process to work correctly, it is necessary to change the value of the variable "SCRAPEOPS_API_KEY" which is inside another variable called "custom_settings" in the file with a path defined as vacancies_scraper/vagas_scraper/spiders/vagas_indeed_spider.py.
