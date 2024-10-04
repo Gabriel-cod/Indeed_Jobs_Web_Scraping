@@ -7,9 +7,8 @@ import logging
 from selenium.webdriver.remote.remote_connection import LOGGER
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
+from selenium import webdriver
 from scrapy.selector import Selector
 from time import sleep
 
@@ -28,8 +27,7 @@ class SpiderVagas(scrapy.Spider):
             'profile.default_content_setting_values.automatic_downloads': 1
         })
         
-        driver = webdriver.Chrome(service=ChromeService(
-            ChromeDriverManager().install()), options=chrome_options)
+        driver = webdriver.Chrome(options=chrome_options)
         
         return driver
     
@@ -47,10 +45,9 @@ class SpiderVagas(scrapy.Spider):
     'scrapy_fake_useragent.providers.FixedUserAgentProvider',  # Fall back to USER_AGENT value
 ],
         'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.203',
-        
-        'SCRAPEOPS_API_KEY': '<<< Sua API Key do site ScrapeOPS >>>',
-        
-        'SCRAPEOPS_PROXY_ENABLED': True
+        'SCRAPEOPS_API_KEY': '<< SCRAPEOPS_API_KEY >>',
+        'SCRAPEOPS_PROXY_ENABLED': True,
+        'FEED_EXPORT_ENCODING': "utf-8"
     }
     
     def __init__(self, vaga: str, name: str | None = None,**kwargs: Any):
@@ -58,18 +55,17 @@ class SpiderVagas(scrapy.Spider):
         self.vaga = vaga
     
     def start_requests(self) -> Iterable[Request]:
-        urls = [f'https://br.indeed.com/jobs?q={self.vaga}&']
+        urls = [f'https://www.indeed.com/jobs?q={self.vaga}&']
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse, meta={'url_base': url})
     
     def parse(self, response: Response, **kwargs: Any) -> Any:
         for elemento in response.xpath("//div[@class='job_seen_beacon']/table"):
             loader = ItemLoader(item=VagasScraperItem(), selector=elemento, response=response)
-            loader.add_xpath("Titulo_da_Vaga", ".//span[@title]/text()")
-            loader.add_xpath('Nome_da_Empresa', ".//span[@data-testid='company-name']/text()")
-            loader.add_xpath('Localizacao', ".//div[@data-testid='text-location']/text()")
-            loader.add_xpath('Detalhes_Cargo', ".//td[@class='resultContent']/div[starts-with(@class, 'heading6 tapItem')]/div/div/text()")
-            if loader.get_output_value('Titulo_da_Vaga') is None and loader.get_output_value('Nome_da_Empresa') is None:
+            loader.add_xpath("Job_Title", ".//span[@title]/text()")
+            loader.add_xpath('Company_Name', ".//span[@data-testid='company-name']/text()")
+            loader.add_xpath('Location', ".//div[@data-testid='text-location']/text()")
+            if loader.get_output_value('Job_Title') is None and loader.get_output_value('Company_Name') is None:
                 continue
             yield loader.load_item()
         

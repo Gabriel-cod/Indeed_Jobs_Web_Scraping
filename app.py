@@ -18,34 +18,34 @@ class Tratamento_de_Dados():
         elif request == 3:
             return nome_vaga
 
-class Telas():
+class Windows():
     def __init__(self) -> None:
         pg.theme('DarkAmber')
         layout = [
-            [pg.Text('Insira uma profissão para buscar suas vagas:'), pg.InputText(key='profissão')],
-            [pg.Button('Realizar Busca')]
+            [pg.Text('Type the job title for search jobs:'), pg.InputText(key='job_title')],
+            [pg.Button('Start Search')]
         ]
         
-        self.janela = pg.Window('Busca por Vagas', layout=layout)
+        self.janela = pg.Window('Search of Jobs', layout=layout)
     
-    def janela_inicial(self):
+    def initial_window(self):
         while True:
             eventos, valores = self.janela.read()
             if eventos is None:
                 return None
-            if eventos == 'Realizar Busca':
-                if valores['profissão'] == '':
-                    pg.popup_error('ERRO: Informe alguma profissão antes de realizar a busca.', )
+            if eventos == 'Start Search':
+                if valores['job_title'] == '':
+                    pg.popup_error('ERROR: Type the job title before to start the Web Scraping.', )
                 else:
-                    return valores['profissão']
+                    return valores['job_title']
     
-    def scrap_finalizado(self):
-        pg.popup_ok('Extração de vagas finalizado! Verifique o arquivo criado na pasta do arquivo executado.')
+    def scrapy_finished(self):
+        pg.popup_ok('Web Scraping of jobs finished! Verify the CSV file created on app folder.')
 
-app_interface = Telas()
+app_interface = Windows()
 
 while True:
-    vaga = app_interface.janela_inicial()
+    vaga = app_interface.initial_window()
 
     if vaga is not None:
         obter_dados_user = Tratamento_de_Dados()
@@ -63,7 +63,7 @@ while True:
 
         bot.crawl(SpiderVagas, vaga=vaga, name='vagasSpider', )
         bot.start()
-        app_interface.scrap_finalizado()
+        app_interface.scrapy_finished()
     
     else:
         break
